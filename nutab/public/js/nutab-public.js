@@ -435,6 +435,16 @@ jQuery(document).ready(function($){
 					d.find("tr.srs:gt(0):not(.srsAusw)").remove();
 				}
 			}
+			t = d.find("tr.srs:gt(0)");
+			// heim und ausw (Spalte �ber format bestimmen)
+			var sh = $.inArray("HeimTeam_Name_kurz", p.fields.split(/;/));
+			var sa = $.inArray("GastTeam_Name_kurz", p.fields.split(/;/));
+			var ha = $.inArray("Halle_Name_kurz", p.fields.split(/;/));
+			t = d.find("tr.srs:gt(0)");
+			t.find("td.srs:eq("+sh+")").addClass("truncated-text");
+			t.find("td.srs:eq("+sa+")").addClass("truncated-text");
+			t.find("td.srs:eq("+ha+")").addClass("truncated-text");
+				
 			// �berz�hlige l�schen 
 			if (+p.maxzeilen > 0) d.find("tr.srs:gt(" + (+p.maxzeilen) + ")").remove();
 			// gestrichene Spiele markieren, Die Zeit ist bei solchen Spielen "00:0."
