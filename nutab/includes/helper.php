@@ -25,8 +25,10 @@ function set_base($u) {
 function init($s) {
 	// hier haben wir mehrere <table> drin, eine f�r die Tabelle, und f�r Spielplan nachher
 	$a = array();
-	if(1 > preg_match_all(';<table.*</table;ismU', $s, $x)) return;
-	$x = $x[0];
+	// GG if(1 > preg_match_all(';<table.*</table;ismU', $s, $x)) return;
+	preg_match_all(';<table.*</table;ismU', $s, $tables);
+	// echo "<!-- " . count($tables[0]) . " Tabellen gefunden -->\n";
+	$x = $tables[0];
 	$tab = "";
 	$sn = "";
 	for ($i=0; $i<count($x); $i++) {
@@ -60,9 +62,9 @@ function init($s) {
 		list(, $platz, $mannschaft, $begegnungen, $g, $u, $v, $tore, $diff, $punkte, ) = $all_empty;
 		list(, $platz, $mannschaft, $begegnungen, $g, $u, $v, $tore, $diff, $punkte, ) = $x;
 		if ($tennis == 1)
-		list(, $platz, $mannschaft, $begegnungen, $g, $u, $v, $punkte, $matchpunkte, $saetze, $spiele, ) = $x;
+			list(, $platz, $mannschaft, $begegnungen, $g, $u, $v, $punkte, $matchpunkte, $saetze, $spiele, ) = $x;
 		if ($tennis == 2)
-		list($platz, $lk, $idnummer, $mannschaft, $nation, $sg, $einzel, $doppel, $gesamt, ) = $x;
+			list($platz, $lk, $idnummer, $mannschaft, $nation, $sg, $einzel, $doppel, $gesamt, ) = $x;
 		$tore = explode(":", $tore);
 		$punkte = explode(":", $punkte);
 		$matchpunkte = explode(":", $matchpunkte);
@@ -128,7 +130,7 @@ function init($s) {
 			);
 		}
 		$a[] = $o;
-		//pp($o);
+		//∂pp($o);
 	}
 	$this->a = $a;
 	$this->tennis = $tennis;
@@ -143,6 +145,8 @@ function init($s) {
 	return;
 }
 function get_xml() {
+	//echo "<!-- NuTab.get_xml() -->\n";
+	//pp($this->a);die;
 	if (!is_array($this->a) || !count($this->a)) return "";
 	$x = "<Aktueller_Spielplan>\n";
 	$x .= "<Tennis>$this->tennis</Tennis>\n";
@@ -177,6 +181,7 @@ function get_xml() {
 	if ($vs) $x .= $vs;
 	if ($ks) $x .= $ks;
 	$x .= "</Aktueller_Spielplan>\n";
+	//pp($x);die;
 	$x = utf8_encode($x);
 	return $x;
 }
@@ -393,7 +398,7 @@ function init($s) {
 	// oder es sind Entscheidungsspiele, dann sind zwei Tabellen drin, Tabelle und Spielplan
 	// GG if(1 > preg_match_all(';<table.*</table;ismU', $s, $x)) return;
 	preg_match_all(';<table.*</table;ismU', $s, $tables);
-	echo "<!-- " . count($tables[0]) . " Tabellen gefunden -->\n";
+	// echo "<!-- " . count($tables[0]) . " Tabellen gefunden -->\n";
 	
 	$x = $tables[0];
 	$tab = "";
@@ -404,7 +409,7 @@ function init($s) {
 			$tab = $s;
 		}
 		if (preg_match(';>Heimmannschaft;ismU', $s)) {
-			echo "<!-- Heimmannschaft in 1. Tabelle gefunden -->\n";
+			//echo "<!-- Heimmannschaft in 1. Tabelle gefunden -->\n";
 			$sn .= $s;
 		}
 	}
@@ -416,7 +421,7 @@ function init($s) {
 				$tab = $s;
 			}
 			if (preg_match(';>Heimmannschaft;ismU', $s)) {
-				echo "<!-- Heimmannschaft in 2. Tabelle gefunden -->\n";
+				//echo "<!-- Heimmannschaft in 2. Tabelle gefunden -->\n";
 				$sn .= $s;
 			}
 		}

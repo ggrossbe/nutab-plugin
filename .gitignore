@@ -10,6 +10,7 @@
 *~
 *.sass-cache
 *.zip
+*.html
 
 # OS or Editor folders
 .DS_Store

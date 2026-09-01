@@ -12,6 +12,7 @@
 }
 .srsTable tr.srsAusw {}
 .srsTable tr.srsHeim {font-weight: bold;}
+.srsTable tr.srsHome {font-weight: bold;}
 .srsTable tr.srsHeim td.srsTabHome {}
 .srsTable tr.srsAusw td.srsTabHome {}
 .srsTable tr.srsSpielGestrichen{text-decoration: line-through;}

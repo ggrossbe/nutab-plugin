@@ -81,7 +81,7 @@ function run_nutab_plugin() {
 }
 run_nutab_plugin();
 
-// [hello] will return "this is the nutab wordpress plugin"
+// [nuliga_spielplan] will return schedule
 function nuliga_spielplan( $atts, $content = null ) {
     $a = shortcode_atts( array(
         'url' => '',
@@ -91,20 +91,22 @@ function nuliga_spielplan( $atts, $content = null ) {
 	return "<div class=\"srsPlan\" srsUrl=\"" . esc_url($a['url']) . "\" srsVerein=\"" . esc_attr($a['verein']) . "\"></div>";
 }
 
+// [nuliga_tabelle] will return standings
 function nuliga_tabelle( $atts, $content = null ) {
     $a = shortcode_atts( array(
         'url' => '',
 		'verein' => '',
+		'spielplan' => 0,
     ), $atts );
 
-	return "<div class=\"srsTable\" srsUrl=\"" . esc_url($a['url']) . "\" srsVerein=\"" . esc_attr($a['verein']) . "\"></div>";
+	return "<div class=\"srsTab\" srsUrl=\"" . esc_url($a['url']) . "\" srsVerein=\"" . esc_attr($a['verein']) . "\"></div>";
 }
 
 add_shortcode('nuliga_spielplan', 'nuliga_spielplan');
 add_shortcode('nuliga_tabelle', 'nuliga_tabelle');
 
 function hook_nutab_script( ){
-    wp_enqueue_script( 'fetch-table', plugin_dir_url( __FILE__ ) . 'js/fetch-table.js' );
+    wp_enqueue_script( 'fetch-table', plugin_dir_url( __FILE__ ) . 'public/js/fetch-table.js' );
     wp_localize_script( 'fetch-table', 'account_fetch_table', array(
             'ajaxurl' => admin_url( 'admin-ajax.php' ),
             'fail_message' => __('Connection to server failed. Check the credentials.', 'fetch-table'),
@@ -132,9 +134,9 @@ function getNuLiga() {
 	// die eigentliche Funktionalität ist in fetch_table.php
 	// wir rufen diese Datei auf und geben die Parameter weiter
 	$u = plugin_dir_url( __FILE__ ) . "fetch_table.php?url=".urlencode($url)."&jn=$jn&spielplan=$spielplan&spielplanverein=$spielplanverein&von=$von&bis=$bis&alle=$alle&aktuell=$aktuell&cty=$cty&auchak=$auchak";
-	// echo "getNuLiga: calling $u";
+	// echo "<!-- getNuLiga: calling $u -->";
 	$r = file_get_contents($u);
-	// echo "getNuLiga: called $u";
+	// echo "<!-- getNuLiga: called $u -->";
 	echo $r;
 }
 

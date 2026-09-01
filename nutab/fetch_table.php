@@ -293,15 +293,19 @@ if ($u && ($gruppe || $club || $nurteam)) {
 		goto cache_err;
 	}
 	if (!$r) {
+		//echo "<!-- fetch_table.php: spielplan = $spielplan, spielplanverein = $spielplanverein -->";
 		if ($spielplan) {
+			//echo "<!-- fetch_table.php: NuPlan2 -->";
 			$tab = new NuPlan2;
 			$tab->set_base($u);
 			if ($aktuell) $tab->set_aktuell(true);
 		} else {
 			if ($spielplanverein) {
+				// echo "<!-- fetch_table.php: NuPlan -->";
 				$tab = new NuPlan;
 				$tab->set_base($u);
 			} else {
+				//echo "<!-- fetch_table.php: NuTab -->";
 				$tab = new NuTab;
 				$tab->set_base($u);
 			}

@@ -37,8 +37,8 @@ jQuery(document).ready(function($){
 	// SERVER kann ersetzt werden durch den echten Server auf dem fetch_table.php installiert oder genutzt werden soll
 	// immer mit // beginnen und mit / beenden!! Auf das Verzeichnis im Server wo fetch_table installiert ist
 	// und immer mit oder ohne www. davor, abhaengig davon, ob ihr eure Seite mit oder ohne aufruft. Also nur das http(s):: davor weglassen
-	// var server = "//www.uhctulln.at/wp-content/plugins/nutab/"; // OHNE http: vorne, also nicht http://EuerServer... sondern nur //EuerServer...
-	var server = "//Users/guenter/work/nutab-0.0.22/nutab/";
+	//var server = "//Users/guenter/work/nutab-0.0.22/nutab/";
+	var server = "//www.uhctulln.at/wp-content/plugins/nutab/"; // OHNE http: vorne, also nicht http://EuerServer... sondern nur //EuerServer...
 	var options = setOptions(server);
 	server = options.server;
 	// da so viele Probleme mit der Server Konfiguration haben, testen wir das gleich
@@ -132,7 +132,7 @@ jQuery(document).ready(function($){
 	};
 	// alle tabellen (spiele und tabelle) fuer eine klasse
 	var show_tables = function(div, data, p) {
-		$(div).find(".srsLaden").remove();
+		//$(div).find(".srsLaden").remove();
 		if (!data) return;
 		if (data.error) {$(div).append(data.error); return;}
 		if (+p.minitab) p.auchspiele = "";
@@ -227,19 +227,35 @@ jQuery(document).ready(function($){
 				m = "<a name=\"srs_a_"+i+"\"></a>" + m;
 				anchors.push('<a href="#srs_a_'+i+'">'+(p.title?p.title:p.klasse?p.klasse:"Tab "+i)+'</a>');
 			}
-			// msg = m+"<p class=\"srsLaden\">" + (window.srsTabMsg || "Tabelle " + (p.klasse || p.liganummer || "")+ " wird geladen") + "</p>";
-			// o.html(msg);
-			$.ajax({
-			    type: "GET",
-			    url: basis + "fetch_table.php",
-			    data : p, 
-			    dataType: options.ajaxDataType,
-			    success: function(data, textstatus) {
-				show_tables(div, data, p);
-			    },
-			    error: function(XMLHttpRequest, textStatus, errorThrown) {
-				o.html("Error in GET srsTab: " + textStatus);
-			    }
+			// o.append(m+"<p class=\"srsLaden\">" + (window.srsTabMsg || "Tabelle " + (p.klasse || p.liganummer || "")+ " wird geladen") + "</p>");
+			jQuery.ajax({
+				type: 'GET',
+				url: account_fetch_table.ajaxurl,
+				data: {
+					action: 'getNuLiga_ajax',
+					dataType: options.ajaxDataType,
+					url: p.url,
+					jn: p.jn || 0,
+					spielplan: p.spielplan || 0,
+					spielplanverein: p.spielplanverein || 0,
+					von: p.von || "",
+					bis: p.bis || "",
+					alle: p.alle || 0,
+					aktuell: p.aktuell || 0,
+					cty: p.cty || "",
+					auchak: p.auchak || 0
+				},
+				beforeSend: function ( ) {
+					// o.append("<p class=\"srsLaden\">" + account_fetch_table.loading_message + ": " + JSON.stringify(p) + "</p>");
+				},
+				success: function ( data, textStatus) {
+					// o.append("<p>Successfully loaded data: " + textStatus + "</p>");
+					// o.append("<p>" + data.substring(0, data.length -1) + "</p>");
+					show_tables(div, JSON.parse(data.substring(0, data.length -1)), p);
+				},
+				error: function ( jqXHR, textStatus, errorThrown ) {
+					o.append("<p>Error in GET srsTab: " + textStatus + ", " + errorThrown + ", " + jqXHR.statusText + ", " + jqXHR.responseText + "</p>");
+				}
 			});
 		});
 		// Links setzen, wenn alle Ligen (ohne daten) im DOM sind
@@ -307,24 +323,10 @@ jQuery(document).ready(function($){
 				show_plan(o.get(), JSON.parse(data.substring(0, data.length -1)), p);
 			},
 			error: function ( jqXHR, textStatus, errorThrown ) {
-				msg = msg + "<p>Error in GET srsPlan: " + textStatus + ", " + errorThrown + ", " + jqXHR.statusText + ", " + jqXHR.responseText + "</p>";
-				o.html(msg);
+				o.append("<p>Error in GET srsPlan: " + textStatus + ", " + errorThrown + ", " + jqXHR.statusText + ", " + jqXHR.responseText + "</p>");
 			}
 		});
-/* 		$.ajax({
-		    type: "GET",
-		    url: basis + "fetch_table.php",
-		    data : p, 
-		    dataType: options.ajaxDataType,
-		    success: function(data, textstatus) {
-				show_plan(o.get(), data, p);
-		    },
-		    error: function(XMLHttpRequest, textStatus, errorThrown) {
-			msg = msg + "<p>Error in GET srsPlan: " + textStatus + "</p>";
-			o.html(msg);
-		    }
-		});
- */	});
+	});
 	// Ausgabeformat fuer den Plan
 	var plan_format = [
 		{ // alles fuer plan
@@ -534,4 +536,3 @@ jQuery(document).ready(function($){
 		return o;
 	}
 });
-
