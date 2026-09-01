@@ -97,6 +97,5 @@ class NuTab_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/nutab-public.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'tabellen.js',      plugin_dir_url( __FILE__ ) . 'js/tabellen.js', array( 'jquery' ), $this->version, false );
 	}
 }
