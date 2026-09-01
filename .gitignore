@@ -9,6 +9,7 @@
 *.vi
 *~
 *.sass-cache
+*.zip
 
 # OS or Editor folders
 .DS_Store
@@ -37,3 +38,4 @@ dwsync.xml
 intermediate
 .idea
 cache
+test.php

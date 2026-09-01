@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    nutab
+ * @subpackage nutab/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    nutab
+ * @subpackage nutab/includes
+ * @author     Günter Grossberger <guenter.grossberger@gmx.at>
  */
-class Plugin_Name_Activator {
+class NuTab_Activator {
 
 	/**
 	 * Short Description. (use period)
@@ -30,7 +30,5 @@ class Plugin_Name_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
 	}
-
 }

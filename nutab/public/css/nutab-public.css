@@ -1,0 +1,32 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+.srsTable {font-size: 12px; border-spacing:1px; border-collapse: collapse;}
+.srsTable th {font-weight: bold; color: white; background-color: #CF2E2E;}
+.srsTable td, .srsTable th {
+	border:1px solid gray;
+	height:16px;
+	padding:2px 5px;
+	white-space:nowrap;
+}
+.srsTable tr.srsAusw {}
+.srsTable tr.srsHeim {font-weight: bold;}
+.srsTable tr.srsHeim td.srsTabHome {}
+.srsTable tr.srsAusw td.srsTabHome {}
+.srsTable tr.srsSpielGestrichen{text-decoration: line-through;}
+.srsTable .r {text-align: right;}
+.srsTable .c {text-align: center;}
+.srsTable .l {text-align: left;}
+
+.srsTab div {margin: 0px 0px 10px 0px;}
+.srsTab div:nth-last-child(1) {margin: 0px 0px 0px 0px;}
+.srsTab p {font-size: 14px; font-weight: bold; text-align: left;}
+
+.srsPlan div {margin: 0px 0px 10px 0px;}
+.srsPlan div:nth-last-child(1) {margin: 0px 0px 0px 0px;}
+.srsPlan p {font-size: 14px; font-weight: bold; text-align: left;}
+
+.srsLinks {text-align: left;}
+
+p.srsLaden {}
